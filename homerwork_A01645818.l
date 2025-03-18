@@ -1,26 +1,42 @@
 %{
 #include <stdio.h>
 %}
-
+    
 %option noyywrap
-
+    
 %%
-"//"                    { printf("COMMENT\n"); }
-f                       { printf("FLOAT_DECL\n"); }
-i                       { printf("INT_DECL\n"); }
-[a-zA-Z_][a-zA-Z0-9]*   { printf("VARIABLE\n"); }
-"+"                     { printf("PLU\nS"); }
-"="                     { printf("EQUAL\n"); }
-"*"                     { printf("MULTIPLICATION\n"); }
-"/"                     { printf("DIVISON\n"); }
-[0-9]+                  { printf("INUM\n"); }
-[0-9]+"."[0-9]+         { printf("FNUM\n"); }
-"\n"                    { printf("\n"); }
-.                       {/*Ignorar otros caracteres*/}
-
+"//"                    { printf("COMMENT"); }
+f                       { printf("floatdcl "); }
+i                       { printf("intdcl "); }
+p                       { printf("print "); }
+[a-zA-Z]+[a-zA-Z0-9]*   { printf("id "); }
+"+"                     { printf("plus "); }
+"-"                     { printf("minus "); }
+"="                     { printf("assign "); }
+"*"                     { printf("mult "); }
+"/"                     { printf("div "); }
+[0-9]*\.[0-9]+          { printf("fnum "); }
+[0-9]+                  { printf("inum "); }
+[ \t\r]+                { /*ignorar espacios y tabs*/ }
+.                       { printf("unknown token "); }
+    
 %%
+    
+int main(int argc, char **argv) {
+    FILE *fd;
 
-int main() {
-    yylex();
-    return 0;
+    if (argc == 2) {
+        if (!(fd = fopen(argv[1], "r"))) {
+            perror("Error: ");
+            return -1;
+        }
+
+        yyset_in(fd); 
+        yylex();
+        fclose(fd);
+
+    } else {
+        printf("Usage: a.out filename\n");
+        return 0;
+    }
 }
