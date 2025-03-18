@@ -5,18 +5,18 @@
 %option noyywrap
     
 %%
-"//"                    { printf("COMMENT"); }
+"//".*                  { printf("COMMENT\n"); }
 f                       { printf("floatdcl "); }
 i                       { printf("intdcl "); }
 p                       { printf("print "); }
-[a-zA-Z]+[a-zA-Z0-9]*   { printf("id "); }
 "+"                     { printf("plus "); }
 "-"                     { printf("minus "); }
 "="                     { printf("assign "); }
 "*"                     { printf("mult "); }
 "/"                     { printf("div "); }
-[0-9]*\.[0-9]+          { printf("fnum "); }
-[0-9]+                  { printf("inum "); }
+[a-zA-Z]+[a-zA-Z0-9]*   { printf("id\n"); }
+[0-9]+\.[0-9]+          { printf("fmun\n"); }
+[0-9]+                  { printf("inum\n"); }
 [ \t\r]+                { /*ignorar espacios y tabs*/ }
 .                       { printf("unknown token "); }
     
