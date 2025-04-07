@@ -6,6 +6,9 @@
     
 %%
 "//".*                  { printf("COMMENT\n"); }
+[a-zA-Z]+[a-zA-Z0-9]*   { printf("id\n"); }
+[0-9]+\.[0-9]+          { printf("fmun\n"); }
+[0-9]+                  { printf("inum\n"); }
 f                       { printf("floatdcl "); }
 i                       { printf("intdcl "); }
 p                       { printf("print "); }
@@ -14,12 +17,8 @@ p                       { printf("print "); }
 "="                     { printf("assign "); }
 "*"                     { printf("mult "); }
 "/"                     { printf("div "); }
-[a-zA-Z]+[a-zA-Z0-9]*   { printf("id\n"); }
-[0-9]+\.[0-9]+          { printf("fmun\n"); }
-[0-9]+                  { printf("inum\n"); }
 [ \t\r]+                { /*ignorar espacios y tabs*/ }
-.                       { printf("unknown token "); }
-    
+.                       { printf("unknown token "); }    
 %%
     
 int main(int argc, char **argv) {
