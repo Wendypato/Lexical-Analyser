@@ -1,26 +1,27 @@
 %{
 #include <stdio.h>
 %}
-    
+
 %option noyywrap
-    
+
 %%
 "//".*                  { printf("COMMENT\n"); }
-[a-zA-Z]+[a-zA-Z0-9]*   { printf("id\n"); }
-[0-9]+\.[0-9]+          { printf("fmun\n"); }
-[0-9]+                  { printf("inum\n"); }
 f                       { printf("floatdcl "); }
 i                       { printf("intdcl "); }
 p                       { printf("print "); }
+[a-zA-Z]+[a-zA-Z0-9]*   { printf("id\n"); }
+[0-9]+\.[0-9]+          { printf("fmun\n"); }
+[0-9]+                  { printf("inum\n"); }
 "+"                     { printf("plus "); }
 "-"                     { printf("minus "); }
 "="                     { printf("assign "); }
 "*"                     { printf("mult "); }
 "/"                     { printf("div "); }
 [ \t\r]+                { /*ignorar espacios y tabs*/ }
-.                       { printf("unknown token "); }    
+.                       { printf("unknown token "); }
+
 %%
-    
+
 int main(int argc, char **argv) {
     FILE *fd;
 
@@ -30,12 +31,12 @@ int main(int argc, char **argv) {
             return -1;
         }
 
-        yyset_in(fd); 
+        yyset_in(fd);
         yylex();
         fclose(fd);
-
     } else {
         printf("Usage: a.out filename\n");
         return 0;
     }
 }
+
